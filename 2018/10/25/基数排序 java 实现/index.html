@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang=>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="/favicon.ico">
+  
+    
+  <title>基数排序 java 实现 | Hexo</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class="logo" href="/">
+      <span>Hexo</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id="post">
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>基数排序 java 实现</h1>
+          <div class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2018/10/25</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Java" class="tag">Java</a>
+
+  <a href="/tags/#Sort" class="tag">Sort</a>
+
+
+            
+          </div>
+          <blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Radix_sort" target="_blank" rel="noopener">Wikipedia: Radix sort</a></p>
+<p><a href="http://www.geeksforgeeks.org/radix-sort/" target="_blank" rel="noopener">geeksforgeeks: Radix sort</a></p>
+<p><a href="http://mindhacks.cn/2008/06/13/why-is-quicksort-so-quick/" target="_blank" rel="noopener">数学之美番外篇：快排为什么那样快</a></p>
+<p><a href="http://developer.51cto.com/art/201104/256449.htm" target="_blank" rel="noopener">Java排序算法总结（八）：基数排序</a></p>
+<p><a href="http://www.cnblogs.com/jingmoxukong/p/4311237.html" target="_blank" rel="noopener">排序八 基数排序</a></p>
+</blockquote>
+<h2 id="算法概念"><a href="#算法概念" class="headerlink" title="算法概念"></a>算法概念</h2><p>基数排序（radix sort）是一种非比较型整数排序算法，不同于比较排序算法（例如：堆排序、归并排序、快速排序），它<strong>不需要比较关键字的大小</strong>，而是根据关键字中各位的值，通过对排序的N个关键字进行若干趟“分配”与“收集”来实现排序的。根据其原理，基数排序不仅适用于整数排序，还可以进行字符串（比如名字或日期）和特定格式的浮点数排序。基数排序是稳定性的排序，在某些时候，基数排序法的效率高于其它的比较性排序法。</p>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><p>基数排序可以分为两类：最高位优先(Most Significant Digit first)法和最低位优先(Least Significant Digit first)法。LSD法从最低位到最高位来对关键字进行处理，MSD法反之。</p>
+<p>以LSD法为例：</p>
+<ol>
+<li>取得每个整数的个位数值（最低位）。</li>
+<li>将所有整数按取得的个位数值进行分组，分组过程中，同组整数保持其在原队列里的顺序（保证了算法的稳定性）。</li>
+<li>按每位数对队列进行重复分组，最终得到一个有序队列。</li>
+</ol>
+<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.lygedi.sort;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RadixSort</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] a)</span></span>&#123;</span><br><span class="line">        List[] bucket = <span class="keyword">new</span> List[<span class="number">10</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">        	List&lt;Integer&gt; al = <span class="keyword">new</span> ArrayList&lt;Integer&gt;(); </span><br><span class="line">        	bucket[i] = al;</span><br><span class="line">        &#125;  </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> maxDigit = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> currentDigit = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> n = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(currentDigit&lt;=maxDigit)&#123;        	</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</span><br><span class="line">            	<span class="keyword">int</span> p = a[i];</span><br><span class="line">            	<span class="keyword">if</span>(currentDigit==<span class="number">1</span>)&#123;</span><br><span class="line">            		<span class="keyword">int</span> temp = (<span class="keyword">int</span>) Math.ceil(Math.log10(p));</span><br><span class="line">            		<span class="keyword">if</span>(temp&gt;maxDigit)&#123;</span><br><span class="line">            			maxDigit = temp;</span><br><span class="line">            		&#125;</span><br><span class="line">            	&#125;</span><br><span class="line"></span><br><span class="line">            	<span class="keyword">int</span> radix = (p / n) % <span class="number">10</span>;             	</span><br><span class="line">            	bucket[radix].add(p);</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">            	ArrayList&lt;Integer&gt; al = (ArrayList&lt;Integer&gt;) bucket[i];</span><br><span class="line">            	<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;al.size();j++)&#123;</span><br><span class="line">            		a[index] = (<span class="keyword">int</span>) al.get(j);</span><br><span class="line">                	index++;</span><br><span class="line">            	&#125;</span><br><span class="line">            	al.clear();</span><br><span class="line">            &#125;            </span><br><span class="line">             </span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</span><br><span class="line">            	 System.out.print(a[i]); </span><br><span class="line">                 System.out.print(<span class="string">","</span>); </span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(currentDigit);</span><br><span class="line">            </span><br><span class="line">            currentDigit++;</span><br><span class="line">            n *= <span class="number">10</span>;</span><br><span class="line">        &#125;          </span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> a[]=&#123;<span class="number">49</span>,<span class="number">38</span>,<span class="number">1</span>,<span class="number">100</span>,<span class="number">1000</span>,<span class="number">1165</span>,<span class="number">9</span>,<span class="number">76</span>,<span class="number">13</span>,<span class="number">4127</span>,<span class="number">49</span>,<span class="number">8</span>,<span class="number">34</span>,<span class="number">10</span>,<span class="number">12</span>,<span class="number">649</span>,<span class="number">49</span>,<span class="number">56</span>,<span class="number">200</span>,<span class="number">412</span>,<span class="number">762</span>,<span class="number">98</span>,<span class="number">97</span>,<span class="number">100</span>,<span class="number">55</span>,</span><br><span class="line">				<span class="number">51</span>,<span class="number">13</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">62</span>,<span class="number">99</span>,<span class="number">98999</span>,<span class="number">54</span>,<span class="number">56</span>,<span class="number">179</span>,<span class="number">17</span>,<span class="number">18</span>,<span class="number">11123</span>,<span class="number">34</span>,<span class="number">56</span>,<span class="number">15</span>,<span class="number">35</span>,<span class="number">25</span>,<span class="number">53</span>,<span class="number">51</span>,<span class="number">0</span>,<span class="number">12013</span>,<span class="number">732</span>,<span class="number">999999</span>,<span class="number">89</span>,</span><br><span class="line">				<span class="number">853202</span>,<span class="number">2342</span>,<span class="number">3</span>,<span class="number">20</span>,<span class="number">1</span>,<span class="number">201</span>,<span class="number">1000</span>,<span class="number">10000</span>,<span class="number">100000</span>,<span class="number">38</span>,<span class="number">29</span>,<span class="number">1234567</span>,<span class="number">3</span>,<span class="number">381</span>,<span class="number">23</span>,<span class="number">123</span>,<span class="number">9123</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">12397</span>,<span class="number">861</span>&#125;;</span><br><span class="line">		</span><br><span class="line">		RadixSort qs = <span class="keyword">new</span> RadixSort();</span><br><span class="line">		qs.sort(a);</span><br><span class="line">		</span><br><span class="line">        System.out.println(a.length);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)  </span><br><span class="line">            System.out.println(Integer.toString(i)+<span class="string">"-"</span>+a[i]); </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </section>
+    </article>
+    
+        <!-- disqus 评论框 start -->
+        <div class="comment">
+            <div id="disqus_thread" class="disqus-thread">
+              <i>Loading comments box needs to over the wall</i>
+            </div>
+        </div>
+        <!-- disqus 评论框 end -->
+    
+    
+        <!-- livere 评论框 start -->
+        <div class="comment">
+            <div id="lv-container" data-id="city" data-uid="your_livere_uid"></div>
+        </div>
+        <!-- livere 评论框 end -->
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法概念"><span class="toc-number">1.</span> <span class="toc-text">算法概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法思想"><span class="toc-number">2.</span> <span class="toc-text">算法思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法实现"><span class="toc-number">3.</span> <span class="toc-text">算法实现</span></a></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+<!-- disqus 公共JS代码 -->
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES * * */
+  var disqus_shortname = "zhubos-blog";
+  var disqus_identifier = "http://yoursite.com/2018/10/25/基数排序 java 实现/";
+  var disqus_url = "http://yoursite.com/2018/10/25/基数排序 java 实现/";
+
+  isAgent(getDisqus)
+
+  // determine user agent in China
+  function isAgent(cb) {
+    var url = '//graph.facebook.com/feed?callback=h';
+    var xhr = new XMLHttpRequest();
+    var called = false;
+    xhr.open('GET', url);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+      called = true;
+      cb(true);
+      }
+    };
+    xhr.send();
+    // timeout 1s, this facebook API is very fast.
+    setTimeout(function() {
+      if (!called) {
+      xhr.abort();
+      cb(false)
+      }
+    }, 1000);
+  }
+
+  function getDisqus(isAgent) {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; 
+    dsq.async = true
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq)
+  }
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+<script type="text/javascript">
+  (function(d, s) {
+      var j, e = d.getElementsByTagName(s)[0];
+
+      if (typeof LivereTower === 'function') { return; }
+
+      j = d.createElement(s);
+      j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+      j.async = true;
+
+      e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2018 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/lib/in-view.min.js"></script>
+<script src="/lib/lodash.min.js"></script>
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+</body>
+</html>

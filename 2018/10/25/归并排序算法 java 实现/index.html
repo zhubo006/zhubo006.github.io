@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang=>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="/favicon.ico">
+  
+    
+  <title>归并排序算法 java 实现 | Hexo</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class="logo" href="/">
+      <span>Hexo</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id="post">
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>归并排序算法 java 实现</h1>
+          <div class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2018/10/25</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Java" class="tag">Java</a>
+
+  <a href="/tags/#Sort" class="tag">Sort</a>
+
+
+            
+          </div>
+          <blockquote>
+<p><a href="http://blog.jobbole.com/72850/" target="_blank" rel="noopener">可视化对比十多种排序算法（C#版）</a></p>
+<p><a href="http://www.blogjava.net/todayx-org/archive/2012/01/08/368091.html" target="_blank" rel="noopener">[直观学习排序算法] 视觉直观感受若干常用排序算法</a></p>
+</blockquote>
+<h2 id="算法概念"><a href="#算法概念" class="headerlink" title="算法概念"></a>算法概念</h2><p>归并排序是建立在归并操作上的一种有效的排序算法,该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列：即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为二路归并。</p>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><p>从概念上讲，归并排序的工作原理如下：</p>
+<ul>
+<li>如果列表的长度是0或1，那么它已经有序。否则：</li>
+<li>未排序的部分平均划分为两个子序列。</li>
+<li>每个子序列，递归使用归并排序。</li>
+<li>合并两个子列表，使之整体有序。</li>
+</ul>
+<p>归并排序包含两个主要观点，以改善其运行时：</p>
+<ul>
+<li>一个小列表排序的花费少于大列表。</li>
+<li>把两个有序表合并，要比直接排列一个无序表花费更少的步骤。例如，您只需要遍历每个有序列表一次即可(见下面的合并功能)。</li>
+</ul>
+<p>归并操作的过程如下：</p>
+<ol>
+<li>申请空间，使其大小为两个已经排序序列之和，该空间用来存放合并后的序列</li>
+<li>设定两个指针，最初位置分别为两个已经排序序列的起始位置</li>
+<li>比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置</li>
+<li>重复步骤3直到某一指针到达序列尾</li>
+<li>将另一序列剩下的所有元素直接复制到合并序列尾</li>
+</ol>
+<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.lygedi.sort;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MergeSort</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] list, <span class="keyword">int</span> iStart, <span class="keyword">int</span> iStop)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (iStop &gt; iStart) &#123;</span><br><span class="line">			<span class="keyword">int</span> iMiddle = (iStart + iStart) / <span class="number">2</span>;</span><br><span class="line">			sort(list, iStart, iMiddle);</span><br><span class="line">			sort(list, iMiddle + <span class="number">1</span>, iStop);</span><br><span class="line">			merge(list, iStart, iMiddle, iStop);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> iStart, <span class="keyword">int</span> iMiddle, <span class="keyword">int</span> iStop)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> lt = iStop - iStart + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span>[] list = <span class="keyword">new</span> <span class="keyword">int</span>[lt];</span><br><span class="line">		<span class="keyword">int</span> pa = iStart;</span><br><span class="line">		<span class="keyword">int</span> pb = iMiddle + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lt; i++) &#123;</span><br><span class="line">			<span class="comment">//利用两个指针对两个数组做对比，将小的放到临时数组</span></span><br><span class="line">			<span class="keyword">if</span> (a[pa] &lt; a[pb]) &#123;</span><br><span class="line">				list[i] = a[pa];</span><br><span class="line">				pa++;</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (a[pa] == a[pb]) &#123;</span><br><span class="line">				list[i] = a[pa];</span><br><span class="line">				i++;</span><br><span class="line">				list[i] = a[pb];</span><br><span class="line"></span><br><span class="line">				pa++;</span><br><span class="line">				pb++;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				list[i] = a[pb];</span><br><span class="line">				pb++;</span><br><span class="line">			&#125;</span><br><span class="line">            <span class="comment">//一个指针到底后，将另一数组全部放到临时数组</span></span><br><span class="line">			<span class="keyword">if</span> (pa &gt; iMiddle) &#123;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; lt; j++) &#123;</span><br><span class="line">					list[j] = a[pb];</span><br><span class="line">					pb++;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (pb &gt; iStop ) &#123;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; lt; j++) &#123;</span><br><span class="line">					list[j] = a[pa];</span><br><span class="line">					pa++;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//将临时数组复制回原数组</span></span><br><span class="line">		<span class="keyword">int</span> j = iStart;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;lt; i++)&#123;</span><br><span class="line">			a[j] = list[i];</span><br><span class="line">			j++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> a[] = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">9</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">49</span>, <span class="number">8</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">64</span>, <span class="number">49</span>, <span class="number">56</span>, <span class="number">2</span>, <span class="number">51</span>, <span class="number">13</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">62</span>, <span class="number">99</span>, <span class="number">98</span>, <span class="number">54</span>, <span class="number">56</span>, <span class="number">17</span>, <span class="number">17</span>,</span><br><span class="line">				<span class="number">18</span>, <span class="number">23</span>, <span class="number">34</span>, <span class="number">56</span>, <span class="number">15</span>, <span class="number">35</span>, <span class="number">25</span>, <span class="number">53</span>, <span class="number">51</span> &#125;;</span><br><span class="line"></span><br><span class="line">		MergeSort qs = <span class="keyword">new</span> MergeSort();</span><br><span class="line">		qs.sort(a, <span class="number">0</span>, a.length - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">		System.out.println(a.length);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length; i++)</span><br><span class="line">			System.out.println(Integer.toString(i) + <span class="string">"-"</span> + a[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </section>
+    </article>
+    
+        <!-- disqus 评论框 start -->
+        <div class="comment">
+            <div id="disqus_thread" class="disqus-thread">
+              <i>Loading comments box needs to over the wall</i>
+            </div>
+        </div>
+        <!-- disqus 评论框 end -->
+    
+    
+        <!-- livere 评论框 start -->
+        <div class="comment">
+            <div id="lv-container" data-id="city" data-uid="your_livere_uid"></div>
+        </div>
+        <!-- livere 评论框 end -->
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法概念"><span class="toc-number">1.</span> <span class="toc-text">算法概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法思想"><span class="toc-number">2.</span> <span class="toc-text">算法思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法实现"><span class="toc-number">3.</span> <span class="toc-text">算法实现</span></a></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+<!-- disqus 公共JS代码 -->
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES * * */
+  var disqus_shortname = "zhubos-blog";
+  var disqus_identifier = "http://yoursite.com/2018/10/25/归并排序算法 java 实现/";
+  var disqus_url = "http://yoursite.com/2018/10/25/归并排序算法 java 实现/";
+
+  isAgent(getDisqus)
+
+  // determine user agent in China
+  function isAgent(cb) {
+    var url = '//graph.facebook.com/feed?callback=h';
+    var xhr = new XMLHttpRequest();
+    var called = false;
+    xhr.open('GET', url);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+      called = true;
+      cb(true);
+      }
+    };
+    xhr.send();
+    // timeout 1s, this facebook API is very fast.
+    setTimeout(function() {
+      if (!called) {
+      xhr.abort();
+      cb(false)
+      }
+    }, 1000);
+  }
+
+  function getDisqus(isAgent) {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; 
+    dsq.async = true
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq)
+  }
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+<script type="text/javascript">
+  (function(d, s) {
+      var j, e = d.getElementsByTagName(s)[0];
+
+      if (typeof LivereTower === 'function') { return; }
+
+      j = d.createElement(s);
+      j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+      j.async = true;
+
+      e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2018 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/lib/in-view.min.js"></script>
+<script src="/lib/lodash.min.js"></script>
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+</body>
+</html>

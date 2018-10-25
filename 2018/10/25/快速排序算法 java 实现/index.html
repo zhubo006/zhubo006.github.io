@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang=>
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+    <link rel="icon" href="/favicon.ico">
+  
+    
+  <title>快速排序算法 java 实现 | Hexo</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lib/jquery.fancybox.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <header>
+  <div class="header-container">
+    <a class="logo" href="/">
+      <span>Hexo</span>
+    </a>
+    <ul class="right-header">
+      
+        <li class="nav-item">
+          
+            <a href="/" class="item-link">首页</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/about" class="item-link">关于</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/archives" class="item-link">归档</a>
+          
+        </li>
+      
+        <li class="nav-item">
+          
+            <a href="/tags" class="item-link">标签</a>
+          
+        </li>
+      
+    </ul>
+  </div>
+</header>
+
+  <main id="post">
+  <div class="content">
+    <article>
+        <section class="content markdown-body">
+          <h1>快速排序算法 java 实现</h1>
+          <div class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>2018/10/25</time>
+            
+              | <i class="fa fa-folder-open-o" aria-hidden="true"></i> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+
+
+            
+            
+              | 
+                  <i class="fa fa-tags" aria-hidden="true"></i>
+                
+               
+  <a href="/tags/#Java" class="tag">Java</a>
+
+  <a href="/tags/#Sort" class="tag">Sort</a>
+
+
+            
+          </div>
+          <blockquote>
+<p><a href="http://www.cnblogs.com/vanezkw/archive/2012/06/21/2557685.html" target="_blank" rel="noopener">快速排序算法Java实现</a><br><a href="http://blog.csdn.net/morewindows/article/details/6684558" target="_blank" rel="noopener">白话经典算法系列之六 快速排序 快速搞定</a><br><a href="http://www.cnblogs.com/liuling/p/2013-7-24-01.html" target="_blank" rel="noopener">各种排序算法的分析及java实现</a></p>
+</blockquote>
+<h2 id="算法概念"><a href="#算法概念" class="headerlink" title="算法概念"></a>算法概念</h2><p>快速排序是C.R.A.Hoare于1962年提出的一种划分交换排序。它采用了一种分治的策略，通常称其为分治法(Divide-and-ConquerMethod)。</p>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><ol>
+<li>先从数列中取出一个数作为基准数。</li>
+<li>分区过程，将比这个数大的数全放到它的右边，小于或等于它的数全放到它的左边。</li>
+<li>再对左右区间重复第二步，直到各区间只有一个数。</li>
+</ol>
+<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.lygedi.sort;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuickSort</span> </span>&#123;</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	1．将基准数挖出形成第一个坑list[high];</span></span><br><span class="line"><span class="comment">    2．由前向后找比它大的数，找到后挖出此数填前一个坑list[high]中;</span></span><br><span class="line"><span class="comment">    3．由后向前找比它小或相等的数，找到后也挖出此数填到前一个坑list[low]中;</span></span><br><span class="line"><span class="comment">    4．再重复执行2，3二步，直到low==high，将基准数填入list[high]中;</span></span><br><span class="line"><span class="comment">    -------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">    也可以理解成pivot、list[low]、list[high]在循环做swap，</span></span><br><span class="line"><span class="comment">    pivot在开始和结束时起了temp的作用</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span>[] list,<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">        <span class="comment">//取出最右边元素做基准值</span></span><br><span class="line">		<span class="keyword">int</span> pivot = list[high];</span><br><span class="line">		<span class="keyword">while</span>(low&lt;high)&#123;</span><br><span class="line">            <span class="comment">//从左向右找第一个大于pivot的item</span></span><br><span class="line">			<span class="keyword">while</span>(low&lt;high &amp;&amp; list[low]&lt;=pivot)&#123;</span><br><span class="line">				low++;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(low&lt;high)&#123;</span><br><span class="line">				list[high] = list[low];</span><br><span class="line">			&#125;</span><br><span class="line">            <span class="comment">//从右向左找第一个小于等于pivot的item</span></span><br><span class="line">			<span class="keyword">while</span>(low&lt;high &amp;&amp; list[high]&gt;pivot)&#123;</span><br><span class="line">				high--;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(low&lt;high)&#123;</span><br><span class="line">				list[low] = list[high];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//用list[hig]和list[low]都可以，因为low==high</span></span><br><span class="line">		list[high]=pivot;</span><br><span class="line">		<span class="keyword">return</span> high;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span>[] list,<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(low&lt;high)&#123;</span><br><span class="line">			<span class="keyword">int</span> position = partition(list,low,high);</span><br><span class="line">			quickSort(list,low,position-<span class="number">1</span>);</span><br><span class="line">			quickSort(list,position+<span class="number">1</span>,high);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span>[] list)</span></span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(list.length&gt;<span class="number">0</span>)&#123;</span><br><span class="line">			quickSort(list,<span class="number">0</span>,list.length-<span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; </span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> a[]=&#123;<span class="number">49</span>,<span class="number">38</span>,<span class="number">65</span>,<span class="number">9</span>,<span class="number">76</span>,<span class="number">13</span>,<span class="number">27</span>,<span class="number">49</span>,<span class="number">8</span>,<span class="number">34</span>,<span class="number">12</span>,<span class="number">64</span>,<span class="number">49</span>,<span class="number">56</span>,<span class="number">2</span>,<span class="number">51</span>,<span class="number">13</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">62</span>,<span class="number">99</span>,<span class="number">98</span>,<span class="number">54</span>,<span class="number">56</span>,<span class="number">17</span>,<span class="number">17</span>,<span class="number">18</span>,<span class="number">23</span>,<span class="number">34</span>,<span class="number">56</span>,<span class="number">15</span>,<span class="number">35</span>,<span class="number">25</span>,<span class="number">53</span>,<span class="number">51</span>&#125;;</span><br><span class="line">		</span><br><span class="line">		QuickSortReserve qs = <span class="keyword">new</span> QuickSortReserve();</span><br><span class="line">		qs.quickSort(a);</span><br><span class="line">		</span><br><span class="line">        System.out.println(a.length);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)  </span><br><span class="line">            System.out.println(Integer.toString(i)+<span class="string">"-"</span>+a[i]); </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </section>
+    </article>
+    
+        <!-- disqus 评论框 start -->
+        <div class="comment">
+            <div id="disqus_thread" class="disqus-thread">
+              <i>Loading comments box needs to over the wall</i>
+            </div>
+        </div>
+        <!-- disqus 评论框 end -->
+    
+    
+        <!-- livere 评论框 start -->
+        <div class="comment">
+            <div id="lv-container" data-id="city" data-uid="your_livere_uid"></div>
+        </div>
+        <!-- livere 评论框 end -->
+        
+  </div>
+  <aside>
+    
+    <div class="toc-container">
+        <h1>目录</h1>
+        <div class="content">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法概念"><span class="toc-number">1.</span> <span class="toc-text">算法概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法思想"><span class="toc-number">2.</span> <span class="toc-text">算法思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法实现"><span class="toc-number">3.</span> <span class="toc-text">算法实现</span></a></li></ol>
+        </div>
+    </div>
+    
+  </aside>
+</main>
+
+<!-- disqus 公共JS代码 -->
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES * * */
+  var disqus_shortname = "zhubos-blog";
+  var disqus_identifier = "http://yoursite.com/2018/10/25/快速排序算法 java 实现/";
+  var disqus_url = "http://yoursite.com/2018/10/25/快速排序算法 java 实现/";
+
+  isAgent(getDisqus)
+
+  // determine user agent in China
+  function isAgent(cb) {
+    var url = '//graph.facebook.com/feed?callback=h';
+    var xhr = new XMLHttpRequest();
+    var called = false;
+    xhr.open('GET', url);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+      called = true;
+      cb(true);
+      }
+    };
+    xhr.send();
+    // timeout 1s, this facebook API is very fast.
+    setTimeout(function() {
+      if (!called) {
+      xhr.abort();
+      cb(false)
+      }
+    }, 1000);
+  }
+
+  function getDisqus(isAgent) {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; 
+    dsq.async = true
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq)
+  }
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+<script type="text/javascript">
+  (function(d, s) {
+      var j, e = d.getElementsByTagName(s)[0];
+
+      if (typeof LivereTower === 'function') { return; }
+
+      j = d.createElement(s);
+      j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+      j.async = true;
+
+      e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+  <footer>
+  <div class="copyright">
+    <div>
+      &copy; 2018 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a>&nbsp
+    </div>
+    <div>
+      Theme by <a href="https://github.com/lewis-geek/hexo-theme-Aath" target="_blank">Aath</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/lib/in-view.min.js"></script>
+<script src="/lib/lodash.min.js"></script>
+<script>
+  var isDown = true
+  var oldY = 0
+  inView.offset(50)
+
+  document.body.addEventListener('touchstart', function(){});
+  
+  window.addEventListener('scroll', _.throttle(e => {
+    var currentY = window.scrollY
+    if((oldY - currentY) < 0) {
+      isDown = true
+    } else {
+      isDown = false
+    }
+    oldY = currentY
+  }, 250))
+
+  $("article img").each(function() {
+      var strA = "<a data-fancybox='gallery' href='" + this.src + "'></a>";
+      $(this).wrapAll(strA);
+  });
+
+  $('.toc-link').each(function() {
+      var href = $(this).attr("href");
+      
+      inView(href).on('exit', () => {
+        if (isDown) {
+          handleActive(href)
+        }
+      })
+
+      inView(href).on('enter', () => {
+        if (!isDown) {
+          handleActive(href)
+        }
+      })
+
+      this.onclick = function(e) {
+        var pos = $(href).offset().top - 10;
+        $("html,body").animate({scrollTop: pos}, 300);
+        setTimeout(() => {
+          handleActive(href)
+        }, 350)
+        return false
+      }
+  })
+
+  function handleActive(href) {
+    document.querySelectorAll('.toc-link').forEach(elm => {
+      elm.classList.remove('active')
+    })
+    document.querySelector(".toc [href='"+ href +"']").classList.add('active')
+  }
+</script>
+<script src="/lib/jquery.fancybox.min.js"></script>
+
+
+</body>
+</html>
